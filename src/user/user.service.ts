@@ -9,7 +9,9 @@ import { User, UserDocument } from './entities/user.entity';
 export class UserService {
   constructor(@InjectModel(User.name) private readonly UserModel: Model<UserDocument>) {}
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
+    // console.log(createUserDto)
+    let user = await this.UserModel.findOne({})
     return 'This action adds a new user';
   }
 
