@@ -1,0 +1,20 @@
+### Create a new user
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+    "name": "hi there",
+    "email": "userone@gmail.com",
+    "phone": 2093
+}
+
+
+
+
+### Update a new user
+PATCH http://localhost:3000/user/:id
+Content-Type: application/json
+
+{
+    "name": "hello there"
+}
