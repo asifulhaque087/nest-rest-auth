@@ -1,0 +1,130 @@
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Select the database to use.
+// use('mongodbVSCodePlaygroundDB');
+use('practise');
+
+// The drop() command destroys all data from a collection.
+// Make sure you run it against the correct database and collection.
+db.roles.drop();
+db.users.drop();
+db.permissions.drop();
+
+// Insert a few documents into the sales collection.
+db.roles.insertMany([
+  {"_id": 1, "title": "admin", "permissions":[2]},
+  {"_id": 2, "title": "saller", "permissions":[1]},
+  {"_id": 3, "title": "customer", "permissions":[]},
+])
+
+
+db.users.insertMany([
+  // {"_id": 1, "name": "asiful", "age":10, "roles":[2]},
+  // {"_id": 3, "name": "mridul", "age":20, "roles":[1,3]},
+  {"_id": 3, "name": "mridul", "age":20, "roles":[1,2]},
+])
+
+
+db.permissions.insertMany([
+  {"_id": 1, "title": "view-slider"},
+  {"_id": 3, "title": "update_slider"},
+])
+
+
+// Run a find command to view items sold on April 4th, 2014.
+// db.sales.find({ date: { $gte: new Date('2014-04-04'), $lt: new Date('2014-04-05') } });
+
+// Build an aggregation to view total sales for each product in 2014.
+// const aggregation = [
+
+//   { $match: { date: { $gte: new Date('2014-01-01'), $lt: new Date('2015-01-01') } } },
+//   { $group: { _id: '$item', totalSaleAmount: { $sum: { $multiply: [ '$price', '$quantity' ] } } } }
+// ];
+
+// Run the aggregation and open a cursor to the results.
+// Use toArray() to exhaust the cursor to return the whole result set.
+// You can use hasNext()/next() to iterate through the cursor page by page.
+// db.sales.aggregate(aggregation);
+
+
+
+db.users.aggregate([
+{
+    $lookup: {
+      from: "roles",
+      localField: "roles",
+      foreignField: "_id",
+      as: "roles",
+    },
+  },
+  {
+    $unwind: {
+      path: "$roles",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $lookup: {
+      from: "permissions",
+      localField: "roles._id",
+      foreignField: "_id",
+      as: "roles.permissions",
+    }
+  },
+  {
+    $group: {
+      _id : "$_id",
+      name: { $first: "$name" },
+      age: { $first: "$age" },
+      roles: { $push: "$roles" }
+    }
+  }
+])
+
+
+
+
+// db.users.aggregate([
+// {
+//     $lookup: {
+//       from: "roles",
+//       as: "roles",
+//       let: {roles: "$roles"},
+//       pipeline: [
+//         {
+//           $match: {
+//             // $expr : { $and :[
+//             //   {$eq: ["$_id", "$$roles"]}
+//             //   // { $in :[ "_id",   "$$roles"]}
+//             // ]}
+//             $expr : { $in :[ "_id", "$$roles"]}
+//           }
+//         }
+//       ]
+//     },
+// },
+
+// ])
+
+// db.roles.aggregate([
+// {
+//     $lookup: {
+//       from: "users",
+//       localField: "_id",
+//       foreignField: "roles",
+//       as: "user",
+//     },
+// },
+// {
+//     $lookup: {
+//       from: "permissions",
+//       localField: "permissions",
+//       foreignField: "_id",
+//       as: "permissions",
+//     },
+// },
+// ])
+
