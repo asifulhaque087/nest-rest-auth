@@ -23,7 +23,7 @@ export class User{
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }] })
   roles: Role[];
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: new Date() })
   createdAt: Date;
 
   @Prop()
