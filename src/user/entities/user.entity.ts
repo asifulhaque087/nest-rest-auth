@@ -2,12 +2,15 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Role } from 'src/role/entities/role.entity';
+import * as bcrypt from "bcryptjs"
+import * as jwt from "jsonwebtoken"
 
 
 export type UserDocument= User & Document;
 
 @Schema()
 export class User{
+
   @Prop({ required: true })
   name: string;
 
@@ -28,7 +31,22 @@ export class User{
 
   @Prop()
   deletedAt?: Date;
+
+
+  getSignedJwtToken() {
+    let user: Partial<UserDocument>
+    user = this
+    return jwt.sign({_id: user._id}, "MRIDUL" ,{expiresIn:"5m"})
+  };
+
+  matchPassword (password:string) {
+    return bcrypt.compare(password, this.password)
+  };
+
 }
 
+
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.loadClass(User)
 

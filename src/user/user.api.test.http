@@ -4,10 +4,24 @@ Content-Type: application/json
 
 {
     "name": "hi there",
-    "email": "userone@gmail.com",
+    "email": "usertwo@gmail.com",
     "phone": "01903709156",
     "password": "password"
 }
+
+
+### login a new user
+POST http://localhost:3000/user/login
+Content-Type: application/json
+
+{
+    "email": "usertwo@gmail.com",
+    "password": "password"
+}
+
+### fetch all user
+GET http://localhost:3000/user
+
 
 
 
