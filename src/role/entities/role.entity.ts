@@ -17,7 +17,7 @@ export class Role{
   permissions: Permission[];
 
 
-  @Prop({ required: true })
+  @Prop({ required: true , default: new Date()})
   createdAt: Date;
 
 

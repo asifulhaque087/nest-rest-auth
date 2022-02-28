@@ -1,0 +1,24 @@
+
+### Create a new permission
+POST http://localhost:3000/permission
+Content-Type: application/json
+
+{
+    "name": "admin"
+}
+
+
+
+### fetch all permission
+GET http://localhost:3000/permission
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjFjOGRjMGE4NjgyNmJkOGFjMTg4YmIiLCJpYXQiOjE2NDYwNDkxMTksImV4cCI6MTY0NjA2NzExOX0.LK6MxYudCj9SKqF03g413HxrR3lbgkLIZbivdSjDHFg
+
+
+
+### Update a new permission
+PATCH http://localhost:3000/permission/621c98802d4a5231b2fedc7f
+Content-Type: application/json
+
+{
+    "name": "user"
+}

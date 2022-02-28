@@ -24,8 +24,6 @@ GET http://localhost:3000/user
 
 
 
-
-
 ### Update a new user
 PATCH http://localhost:3000/user/:id
 Content-Type: application/json

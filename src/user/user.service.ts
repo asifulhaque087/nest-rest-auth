@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './entities/user.entity';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class UserService {
@@ -48,11 +49,91 @@ export class UserService {
   }
 
   findAll() {
-    return this.UserModel.find();
+    // return this.UserModel.find();
+
+    return this.UserModel.aggregate([
+    {
+        $lookup: {
+          from: "roles",
+          localField: "roles",
+          foreignField: "_id",
+          as: "roles",
+        },
+      },
+      {
+        $unwind: {
+          path: "$roles",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $lookup: {
+          from: "permissions",
+          localField: "roles._id",
+          foreignField: "_id",
+          as: "roles.permissions",
+        }
+      },
+      {
+        $group: {
+          _id : "$_id",
+          name: { $first: "$name" },
+          email: { $first: "$email" },
+          roles: { $push: "$roles" }
+        }
+      }
+    ])
   }
 
   findOne(id: number) {
     return `This action returns a #${id} user`;
+  }
+
+  findAuthUser(id: any) {
+    console.log("from user service ", id._id)
+
+    // const user = this.UserModel.find(id)
+    // return user
+
+    id = new mongoose.Types.ObjectId(id._id)
+
+    console.log("the final id is ", id)
+
+    return this.UserModel.aggregate([
+    { 
+        $match:{"_id":{$eq:id}}
+    },
+    {
+        $lookup: {
+          from: "roles",
+          localField: "roles",
+          foreignField: "_id",
+          as: "roles",
+        },
+      },
+      {
+        $unwind: {
+          path: "$roles",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $lookup: {
+          from: "permissions",
+          localField: "roles._id",
+          foreignField: "_id",
+          as: "roles.permissions",
+        }
+      },
+      {
+        $group: {
+          _id : "$_id",
+          name: { $first: "$name" },
+          email: { $first: "$email" },
+          roles: { $push: "$roles" }
+        }
+      }
+    ])
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

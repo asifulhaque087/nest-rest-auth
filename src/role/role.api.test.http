@@ -1,0 +1,23 @@
+
+### Create a new Role 
+POST http://localhost:3000/role
+Content-Type: application/json
+
+{
+    "name": "admin"
+}
+
+
+
+### fetch all role
+GET http://localhost:3000/role
+
+
+
+### Update a new role
+PATCH http://localhost:3000/role/621c98802d4a5231b2fedc7f
+Content-Type: application/json
+
+{
+    "name": "user"
+}

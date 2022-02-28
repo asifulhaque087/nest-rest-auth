@@ -9,12 +9,14 @@ import { Role, RoleDocument } from './entities/role.entity';
 export class RoleService {
   constructor(@InjectModel(Role.name) private readonly RoleModel: Model<RoleDocument>) {}
 
-  create(createRoleDto: CreateRoleDto) {
-    return 'This action adds a new role';
+  async create(createRoleDto: CreateRoleDto) {
+    let newRole= new this.RoleModel(createRoleDto)
+    newRole = await newRole.save()
+    return newRole
   }
 
   findAll() {
-    return `This action returns all role`;
+    return this.RoleModel.find();
   }
 
   findOne(id: number) {

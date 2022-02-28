@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { User, UserDocument } from 'src/user/entities/user.entity';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { Permission, PermissionDocument } from './entities/permission.entity';
@@ -8,13 +9,18 @@ import { Permission, PermissionDocument } from './entities/permission.entity';
 @Injectable()
 export class PermissionService {
   constructor(@InjectModel(Permission.name) private readonly PermissionModel: Model<PermissionDocument>) {}
+  // constructor(@InjectModel(Permission.name) private readonly PermissionModel: Model<PermissionDocument>,@InjectModel(User.name) private readonly UserModel: Model<UserDocument>) {}
 
-  create(createPermissionDto: CreatePermissionDto) {
-    return 'This action adds a new permission';
+  async create(createPermissionDto: CreatePermissionDto) {
+
+    let newPermission = new this.PermissionModel(createPermissionDto)
+    newPermission = await newPermission.save()
+    return newPermission
+
   }
 
   findAll() {
-    return `This action returns all permission`;
+    return this.PermissionModel.find();
   }
 
   findOne(id: number) {

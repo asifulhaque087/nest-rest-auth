@@ -36,7 +36,7 @@ export class User{
   getSignedJwtToken() {
     let user: Partial<UserDocument>
     user = this
-    return jwt.sign({_id: user._id}, "MRIDUL" ,{expiresIn:"5m"})
+    return jwt.sign({_id: user._id}, "MRIDUL" ,{expiresIn:"5h"})
   };
 
   matchPassword (password:string) {

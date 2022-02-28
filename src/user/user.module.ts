@@ -39,6 +39,7 @@ import * as jwt from "jsonwebtoken"
     ]),
   ],
 
+  exports:[UserService],
   controllers: [UserController],
   providers: [UserService]
 })
