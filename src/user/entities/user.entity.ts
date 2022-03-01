@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Role } from 'src/role/entities/role.entity';
 import * as bcrypt from "bcryptjs"
@@ -24,7 +24,7 @@ export class User{
   password: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }] })
-  roles: Role[];
+  roles?: Types.ObjectId[];
 
   @Prop({ required: true, default: new Date() })
   createdAt: Date;

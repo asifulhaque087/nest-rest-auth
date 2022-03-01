@@ -25,9 +25,9 @@ GET http://localhost:3000/user
 
 
 ### Update a new user
-PATCH http://localhost:3000/user/:id
+PATCH http://localhost:3000/user/621c8dc0a86826bd8ac188bb
 Content-Type: application/json
 
 {
-    "name": "hello there"
+    "role": "621c98802d4a5231b2fedc7f"
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UnauthorizedException } from '@nestjs/common';
 import { PermissionService } from './permission.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
@@ -17,22 +17,41 @@ export class PermissionController {
 
   @Get()
   async findAll(@Req() req) {
-    console.log("permission find ", req.headers.authorization)
+
+    const obj = {
+      GET: "view",
+      POST: "create",
+      PATCH: "edit"
+    }
+
+    const path = req.path.replaceAll("/","-")
+    const permission = `${obj[req.method]}${path}`
+
+
     const authHeader = req.headers.authorization
     if (authHeader){
       const token = authHeader.split("Bearer ")[1]
       if (token){
         const user_id = jwt.verify(token, "MRIDUL")
 
-        console.log("user_id ", user_id)
 
         const user = await this.userService.findAuthUser(user_id)
 
-        console.log("user is ", user)
         if (user){
-          return user[0]
+          let val : boolean
+          user[0].roles.map(r => r.permissions.find(p=> {
+            if (p.name === permission){
+              val = true
+            }
+            return p.name === permission
+          }))
+
+          if (!val){
+            throw new UnauthorizedException("permission denied")
+          }
+          console.log("val is ", val)
+
         }
-        return {}
 
       }
     }

@@ -69,10 +69,10 @@ export class UserService {
       {
         $lookup: {
           from: "permissions",
-          localField: "roles._id",
+          localField: "roles.permissions",
           foreignField: "_id",
           as: "roles.permissions",
-        }
+        },
       },
       {
         $group: {
@@ -90,14 +90,9 @@ export class UserService {
   }
 
   findAuthUser(id: any) {
-    console.log("from user service ", id._id)
-
-    // const user = this.UserModel.find(id)
-    // return user
 
     id = new mongoose.Types.ObjectId(id._id)
 
-    console.log("the final id is ", id)
 
     return this.UserModel.aggregate([
     { 
@@ -120,10 +115,10 @@ export class UserService {
       {
         $lookup: {
           from: "permissions",
-          localField: "roles._id",
+          localField: "roles.permissions",
           foreignField: "_id",
           as: "roles.permissions",
-        }
+        },
       },
       {
         $group: {
@@ -136,8 +131,12 @@ export class UserService {
     ])
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: any, updateUserDto: UpdateUserDto) {
+    const user = await this.UserModel.findById(id)
+    const r_id = new mongoose.Types.ObjectId(updateUserDto.role)
+    user.roles.push(r_id)
+    const newUser = await user.save();
+    return newUser;
   }
 
   remove(id: number) {

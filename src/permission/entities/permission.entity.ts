@@ -10,7 +10,7 @@ export class Permission{
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true , default: new Date()})
   createdAt: Date;
 
   @Prop()

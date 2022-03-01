@@ -21,8 +21,8 @@ export class UserController {
   @Get()
   findAll(@Req() req) {
     // console.log("url is ", req.url)
-    console.log("path is ", req.path)
-    console.log("method is ", req.method)
+    // console.log("path is ", req.path)
+    // console.log("method is ", req.method)
     return this.userService.findAll();
   }
 
@@ -33,7 +33,7 @@ export class UserController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')

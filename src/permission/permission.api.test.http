@@ -4,14 +4,14 @@ POST http://localhost:3000/permission
 Content-Type: application/json
 
 {
-    "name": "admin"
+    "name": "view-permission"
 }
 
 
 
 ### fetch all permission
 GET http://localhost:3000/permission
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjFjOGRjMGE4NjgyNmJkOGFjMTg4YmIiLCJpYXQiOjE2NDYwNDkxMTksImV4cCI6MTY0NjA2NzExOX0.LK6MxYudCj9SKqF03g413HxrR3lbgkLIZbivdSjDHFg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjFjOGRjMGE4NjgyNmJkOGFjMTg4YmIiLCJpYXQiOjE2NDYxMTU3NDIsImV4cCI6MTY0NjEzMzc0Mn0.V8x17K4CkCFxP4z8OXKvOaD49RR-pQvO0n9-WcDfPPA
 
 
 

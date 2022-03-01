@@ -13,6 +13,12 @@ db.roles.drop();
 db.users.drop();
 db.permissions.drop();
 
+
+db.permissions.insertMany([
+  {"_id": 1, "title": "view-slider"},
+  {"_id": 3, "title": "update_slider"},
+])
+
 // Insert a few documents into the sales collection.
 db.roles.insertMany([
   {"_id": 1, "title": "admin", "permissions":[2]},
@@ -28,10 +34,6 @@ db.users.insertMany([
 ])
 
 
-db.permissions.insertMany([
-  {"_id": 1, "title": "view-slider"},
-  {"_id": 3, "title": "update_slider"},
-])
 
 
 // Run a find command to view items sold on April 4th, 2014.

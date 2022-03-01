@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { Role, RoleDocument } from './entities/role.entity';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class RoleService {
@@ -16,14 +17,31 @@ export class RoleService {
   }
 
   findAll() {
-    return this.RoleModel.find();
+    // return this.RoleModel.find();
+
+    return this.RoleModel.aggregate([
+    {
+        $lookup: {
+          from: "permissions",
+          localField: "permissions",
+          foreignField: "_id",
+          as: "permissions",
+        },
+      }])
   }
 
   findOne(id: number) {
     return `This action returns a #${id} role`;
   }
 
-  update(id: number, updateRoleDto: UpdateRoleDto) {
+  async update(id: any, updateRoleDto: UpdateRoleDto) {
+    const role = await this.RoleModel.findById(id)
+    const p_id = new mongoose.Types.ObjectId(updateRoleDto.permission)
+    role.permissions.push(p_id)
+    
+    const newRole = await role.save()
+    return newRole
+
     return `This action updates a #${id} role`;
   }
 

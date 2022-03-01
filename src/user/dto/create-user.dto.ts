@@ -10,6 +10,10 @@ export class CreateUserDto {
     @IsString()
     phone: string
 
+    @IsOptional()
+    @IsString()
+    role: string
+
     @IsString()
     password: string
 }

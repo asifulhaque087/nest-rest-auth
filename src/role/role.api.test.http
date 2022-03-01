@@ -19,5 +19,5 @@ PATCH http://localhost:3000/role/621c98802d4a5231b2fedc7f
 Content-Type: application/json
 
 {
-    "name": "user"
+    "permission": "621dbfca947ad1a64d151d13"
 }

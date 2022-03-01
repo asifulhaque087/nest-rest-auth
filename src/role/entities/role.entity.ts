@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Permission } from 'src/permission/entities/permission.entity';
 
@@ -14,7 +14,7 @@ export class Role{
 
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Permission' }] })
-  permissions: Permission[];
+  permissions?: Types.ObjectId[];
 
 
   @Prop({ required: true , default: new Date()})
